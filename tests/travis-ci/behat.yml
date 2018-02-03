@@ -7,7 +7,7 @@ default:
                 - %paths.base%/tests/features
             contexts:
                 - FeatureContext:
-                    base_url: http://localhost:8000
+                    base_url: http://phplist.dev
                     database:
                         host: localhost
                         user: root
@@ -32,7 +32,7 @@ default:
                     clear_screenshot_directory: false
 
         Behat\MinkExtension:
-            base_url: "http://localhost:8000"
+            base_url: http://phplist.dev
             javascript_session: chrome
             sessions:
                 chrome:

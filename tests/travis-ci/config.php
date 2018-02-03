@@ -25,7 +25,7 @@ $database_host = 'localhost';
 $database_name = 'phplistdb';
 
 # what user has access to this database
-$database_user = 'travis';
+$database_user = 'root';
 
 # and what is the password to login to control the database
 $database_password = '';

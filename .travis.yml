@@ -1,4 +1,5 @@
 language: php
+
 php:
   - 7.1
   - 7.0
@@ -6,14 +7,21 @@ php:
   - 5.5
   - 5.4
   - 5.3
+
+services:
+  - mysql
+
 dist: precise
+
 cache:
     directories:
       - "$HOME/.composer/cache"
+
 # Load secure environment variables for access by other scripts
 env:
   global:
     - secure: "VQRmfY0b7dwYJNH2SyO5yGyWNTir8sNeCJOMgmH6slYF+zla6s6iuc6Nt837aVORSyL/CnASPRpm1O7wYDHJpYpa+kJRmNf/n/dyi0b+WVgH/H0NeqS/qUg7TTz+BtKQHqNUQourMOQ+vM4D75zSN+R7h/lf+hOdzucsqDBXcUA="
+
 notifications:
   slack:
     rooms:
@@ -29,6 +37,7 @@ before_script:
   - echo "127.0.0.1 phplist.dev" | sudo tee -a /etc/hosts
   - sudo /etc/init.d/apache2 restart
   - mkdir -p build/screenshot
+  - mkdir -p build/behat
   - cp -f tests/travis-ci/behat.yml behat.yml
   - cp -f tests/travis-ci/config.php public_html/lists/config/config.php
   - composer self-update
@@ -50,7 +59,7 @@ before_script:
 script:
   - vendor/bin/behat tests/features/getting-started/setup.feature
   - vendor/bin/phpLint ./public_html
-  - vendor/bin/behat
+  - vendor/bin/behat -vvv
 
 after_failure:
   - echo "Failures detected. Outputing additional logs:"
@@ -61,3 +70,4 @@ after_failure:
   - sudo cat /var/log/mysql/error.log
   - ls -lh build/screenshot
   - IMGUR_CLIENT_ID=bec050c54e1bb52 ./bin/imgur-uploader.sh build/screenshot/*.png
+  - ./vendor/bin/upload-textfiles build/behat/*.log

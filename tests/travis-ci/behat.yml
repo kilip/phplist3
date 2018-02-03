@@ -18,6 +18,11 @@ default:
                         username : admin
                         password : Mypassword123+
     extensions:
+        Lakion\Behat\MinkDebugExtension:
+            directory: build/behat
+            clean_start: true
+            screenshot: false
+
         Bex\Behat\ScreenshotExtension:
             image_drivers:
                 local:

@@ -8,19 +8,11 @@ php:
   - 5.4
   - 5.3
 
-services:
-  - mysql
-
 dist: precise
 
 cache:
     directories:
       - "$HOME/.composer/cache"
-
-# Load secure environment variables for access by other scripts
-#env:
-#  global:
-#    - secure: "VQRmfY0b7dwYJNH2SyO5yGyWNTir8sNeCJOMgmH6slYF+zla6s6iuc6Nt837aVORSyL/CnASPRpm1O7wYDHJpYpa+kJRmNf/n/dyi0b+WVgH/H0NeqS/qUg7TTz+BtKQHqNUQourMOQ+vM4D75zSN+R7h/lf+hOdzucsqDBXcUA="
 
 notifications:
   slack:
@@ -30,6 +22,7 @@ notifications:
   on_failure: always
 
 before_script:
+  - phpenv config-add .travis/phpenv.ini
   - sudo apt-get update > /dev/null
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
   - sudo sed -i -e "s,/var/www,$(pwd)/public_html,g" /etc/apache2/sites-available/default
@@ -71,3 +64,5 @@ after_failure:
   - ls -lh build/screenshot
   - IMGUR_CLIENT_ID=bec050c54e1bb52 ./bin/imgur-uploader.sh build/screenshot/*.png
   - ./vendor/bin/upload-textfiles build/behat/*.log
+  - cat public_html/lists/config/config.php
+  - php -i

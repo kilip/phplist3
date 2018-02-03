@@ -48,9 +48,9 @@ before_script:
     rm master.tar.gz && cd ../../../../
   - mysql -e 'SET GLOBAL wait_timeout = 5400;'
   - mysql -e 'create database phplistdb;'
+  - vendor/bin/behat tests/features/getting-started/setup.feature
 
 script:
-  - vendor/bin/behat tests/features/getting-started/setup.feature
   - vendor/bin/phpLint ./public_html
   - vendor/bin/behat -vvv
 

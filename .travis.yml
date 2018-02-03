@@ -22,7 +22,7 @@ notifications:
   on_failure: always
 
 before_script:
-  - phpenv config-add .travis/phpenv.ini
+  - phpenv config-add tests/travis-ci/phpenv.ini
   - sudo apt-get update > /dev/null
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
   - sudo sed -i -e "s,/var/www,$(pwd)/public_html,g" /etc/apache2/sites-available/default
